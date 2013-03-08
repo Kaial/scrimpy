@@ -8,15 +8,15 @@ require 'sinatra'
 configure do 
 	require 'ostruct'
 	$Blog = OpenStruct.new(
-                	:title => 'your blog title',
-    				:author => 'blog author',					
-					:url_base => 'blogurl.com',
-					:admin_password => 'CHANGEME',
+                	:title => 'floating point park',
+    				:author => 'Kyle Ceschi',					
+					:url_base => 'kyleceschi.com',
+					:admin_password => ENV['BLOG_PASS'],
 					:admin_cookie_key => 'blog_admin',
-					:admin_cookie_val => 'CHANGEME',
-					:mongo_uri => 'mongodb://user:password@uri/to/mongodb',
-					:mongo_db => 'dbname',
-					:mongo_default_collection => 'default_collection')
+					:admin_cookie_val => ENV['BLOG_KEY'],
+					:mongo_uri => ENV['BLOG_DB_URI'],
+					:mongo_db => ENV['BLOG_DB'],
+					:mongo_default_collection => 'blog')
 end
 
 error do 
@@ -25,8 +25,6 @@ error do
 	puts e.backtrace.join("\n")
 	"Application error"
 end
-
-
 
 helpers do
 	def admin?
