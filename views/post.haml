@@ -1,0 +1,22 @@
+%head
+    %meta{'http-equiv' => "content-type", :content => "text/html", :charset => "utf-8"}/	
+    %link(rel="icon" type="image/x-icon" href="/img/favicon.ico")
+    %link(href="/css/font/fonts.css" rel="stylesheet" type="text/css")
+    %link{:href => "/css/main.css", :rel => "stylesheet", :type => "text/css"}/
+    %title=$Blog.title
+.postzoom
+    %h2.title
+        =post.title
+    %p.meta
+        %small
+            -post.tags.each do |tag|
+                %a{:href => "past/tags/#{tag}"}
+                =tag
+    %p.meta
+        =post.created
+    #content
+        #entry
+            =post.body_html
+    -if admin?
+        .edit
+            %a{:href => post.url + "/edit"} edit
