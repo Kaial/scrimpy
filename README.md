@@ -14,8 +14,15 @@ you will have to change the blog config struct at the top of main.rb
         :mongo_default_collection => 'thecollectionyourblogdataisin')
         
 The blog uses these gems
+
 sinatra
+
 haml
+
 mongo
+
 redcarpet
-I deploy mine to heroku, however you can also run it locally by running 'ruby -rubygems main.rb' (assuming you have a database setup)
+
+I deploy mine to heroku, however you can also run it locally by running 
+    'ruby -rubygems main.rb' 
+(assuming you have a database setup)
