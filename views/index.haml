@@ -4,17 +4,17 @@
 		%link(rel="icon" type="image/x-icon" href="/img/favicon.ico")
 		%link(href="/css/font/fonts.css" rel="stylesheet" type="text/css")
 		%link{:href => "/css/main.css", :rel => "stylesheet", :type => "text/css"}/
-		%title=$Blog.title
+		%title=$Blog['title']
 	%body
 		#header
 			#logo      					 
 				%h1 
 					%a{:href => "/"}
 						%img(src="/img/logo.png" alt="fedora")
-						=$Blog.title
+						=$Blog['title']
 				%p 
 					by
-					=$Blog.author
+					=$Blog['author']
 		#content
 			- posts.each do |post|
 				.post

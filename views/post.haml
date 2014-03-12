@@ -3,7 +3,7 @@
     %link(rel="icon" type="image/x-icon" href="/img/favicon.ico")
     %link(href="/css/font/fonts.css" rel="stylesheet" type="text/css")
     %link{:href => "/css/main.css", :rel => "stylesheet", :type => "text/css"}/
-    %title=$Blog.title
+    %title=$Blog['title']
 .postzoom
     %h2.title
         =post.title

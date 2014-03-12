@@ -7,7 +7,7 @@ require 'ostruct'
 
 class Post
 	@@MarkDown = Redcarpet::Markdown.new(Redcarpet::Render::HTML, :autolink => true, :space_after_headers => true)			
-	@@BlogCollection = Mongo::Connection.from_uri($Blog.mongo_uri).db($Blog.mongo_db).collection($Blog.mongo_default_collection)
+	@@BlogCollection = Mongo::Connection.from_uri($Blog['mongo_uri']).db($Blog['mongo_db']).collection($Blog['mongo_default_collection'])
 	attr_accessor :title, :created, :body, :tags, :author, :slug
 	
 	def initialize (title,created,body,tags,author,slug)
@@ -28,7 +28,7 @@ class Post
 		@created = Time.now.utc
 		@body = "Enter body markdown supported"
 		@tags = ["new"]
-		@author = $Blog.author
+		@author = $Blog['author']
 	end
 	#crud operations	
 	def Post.del(slug)
@@ -88,7 +88,7 @@ class Post
 	end
 	
 	def full_url
-		Blog.url_base.gsub(/\/$/, '') + url
+		Blog['url_base'].gsub(/\/$/, '') + url
 	end
 	
 	def summary

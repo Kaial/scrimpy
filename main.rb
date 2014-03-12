@@ -1,22 +1,13 @@
 require 'rubygems'
 require 'sinatra'
-#only set these when debuggin on the cloud9 dev server, 
-#otherwise comment them out (Doesn't actually work that well)
-#set :bind, "127.7.132.1"
-#set :port, 8080
+
+set :run, true
+set :root, File.dirname(__FILE__)
+set :views, Proc.new { File.join(root, "views") }
 
 configure do 
-	require 'ostruct'
-	$Blog = OpenStruct.new(
-                	:title => 'floating point park',
-    				:author => 'Kyle Ceschi',					
-					:url_base => 'kyleceschi.com',
-					:admin_password => ENV['BLOG_PASS'],
-					:admin_cookie_key => 'blog_admin',
-					:admin_cookie_val => ENV['BLOG_KEY'],
-					:mongo_uri => ENV['BLOG_DB_URI'],
-					:mongo_db => ENV['BLOG_DB'],
-					:mongo_default_collection => 'blog')
+	require 'yaml'
+	$Blog = YAML.load_file(File.expand_path("../blog_config.yml", __FILE__))
 end
 
 error do 
@@ -28,7 +19,7 @@ end
 
 helpers do
 	def admin?
-		request.cookies[$Blog.admin_cookie_key] == $Blog.admin_cookie_val
+		request.cookies[$Blog['admin_cookie_key']] == $Blog['admin_cookie_val']
 	end
 	
 	def auth
@@ -67,9 +58,9 @@ get '/auth' do
 end
 
 post '/auth' do
-	if params[:password] == $Blog.admin_password
-		response.set_cookie($Blog.admin_cookie_key,
-												:value => $Blog.admin_cookie_val,
+	if params[:password] == $Blog['admin_password']
+		response.set_cookie($Blog['admin_cookie_key'],
+												:value => $Blog['admin_cookie_val'],
 												:path => "/")
 	else
 		error [401, 'Not authorized']
@@ -79,13 +70,13 @@ end
 
 get '/posts/new' do
 	auth
-	newPostTemplate = Post.new("EnterTitle",Time.now, "body", ["new"],$Blog.author,Post.make_slug("EnterTitle"))
+	newPostTemplate = Post.new("EnterTitle",Time.now, "body", ["new"],$Blog['author'],Post.make_slug("EnterTitle"))
 	haml :edit, :locals => { :post => newPostTemplate, :url => 'new' }
 end
 
 post '/posts/new' do
 	auth
-	post = Post.new(params[:title], Time.now, params[:body], params[:tags].split(','), $Blog.author, Post.make_slug(params[:title]) )
+	post = Post.new(params[:title], Time.now, params[:body], params[:tags].split(','), $Blog['author'], Post.make_slug(params[:title]) )
 	post.save
 	redirect post.url
 end
