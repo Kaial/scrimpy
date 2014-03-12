@@ -1,0 +1,9 @@
+title: yourblogtitle
+author: yourname
+url_base: yoursite.com
+admin_password: yourpassword
+admin_cookie_key: blog_admin
+admin_cookie_val: yourkeyvalue
+mongo_uri: youruri
+mongo_db: yourdb
+mongo_default_collection: yourdefaultcollection
